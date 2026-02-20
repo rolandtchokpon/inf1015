@@ -9,6 +9,10 @@ git pull //Pour faire une mise à jour entre les elements du depot local et
 
 //---------//
 
-git checkout -b nom_branch  //Pour creer une nouvelle branch
+git checkout -b nom_branch  //Pour creer une nouvelle branch 1
 git switch nom_branch  //Pour passer d'une branch à l'autre
-
+git switch -c nom_branch // Meme role que 1
+git branch -D nom_branch   //Pour forcer la suppression d'une branche sans 
+                           misàj
+git branch -d nom_branch   //Pour supprimer une branch avec une retriction 
+                           de miseàj préalable 
