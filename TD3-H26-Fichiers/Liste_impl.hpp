@@ -1,0 +1,58 @@
+#pragma once 
+#include <iostream>
+#include <memory>
+using namespace std;
+
+template <typename T>
+Liste<T>::Liste() : capacite_(0), nElements_(0), elements_(nullptr){};
+
+template <typename T>
+Liste<T>::Liste(unsigned capacite_attendu) :
+	capacite_(capacite_attendu), nElements(0),
+	elements_(capacite_ ? make_unique<unique_ptr <T>[]>(capacite_) : nullptr)
+{}
+
+template <typename T>
+void Liste<T>::ajouterElements(std::unique_ptr<T> obj) {
+	if (!obj) return; // arrêt de la fcontion si aucun pointeur
+
+	if (nELements_ >= capacite_) {
+		augmenterCapacite(capacite_ == 0 ? 1 : capacite_ * 2);
+	}
+
+	elements_[nElements_] = move(obj);
+	nELements_++;
+}
+
+template <typename T>
+template <typename Predicate>
+T* Liste<T>::rechercherElements(Predicate pred) {
+	for (unsigned i = 0; i < nElements_; i++) {
+		if (elements_[i] && pred(*elements_[i])) {
+			return elements_[i];
+		}
+	}
+	return nullptr;
+}
+template <typename T>
+template <typename Predicate>
+const T* Liste<T>::rechercherElements(Predicate pred) const {
+	for (unsigned i = 0; i < nElements_; i++) {
+		if (elements_[i] && pred(*elements_[i])) {
+			return elements_[i];
+		}
+	}
+	return nullptr;
+}
+
+template <typename T>
+void Liste<T>::augmenterCapacite(unsigned nouvelleCapacite) {
+
+	auto nouvelleListe = make_unique<unique_ptr<T>[]>(nouvelleCapacite);
+
+	for (unsigned i = 0; i < capacite_; i++) {
+		nouvelleListe[i] = move(elements_[i]);
+	}
+	elements_ = move(nouvelleListe);
+	capacite_ = nouvelleCapacite;
+}
