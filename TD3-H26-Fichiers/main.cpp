@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Liste.hpp"
 #include "Concepteur.hpp"
+#include <cassert>
 #include "Jeu.hpp"
 #include "lectureFichierJeux.hpp"
 #include "bibliotheque_cours.hpp"
@@ -25,9 +26,35 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		"\033[0m\n";
 
 
-	Liste<int> L;
-	L.ajouterElements(make_unique<int>(10));
+	/*Liste<string> L;
+	L.ajouterElements(make_unique<string>("Roland"));
+	L.ajouterElements(make_unique<string>("Edwige"));
 
+	L.augmenterCapacite(10);
+	cout << L[1] << endl;
+
+	string *pos = L.rechercherElements([](string x){
+		return x == "Youssef";
+	});
+
+	if (pos) {
+		cout << *pos << endl;
+	}
+	else {
+		cout << "Pas present";
+	}*/
+	Liste<int> l;
+
+	for (int i = 0; i < 50; ++i)
+		l.ajouterElements(make_unique<int>(i));
+
+	assert(l.size() == 50);
+	assert(l.getCapacite() >= 50);
+
+	for (int i = 0; i < 50; ++i)
+		assert(l[i] == i);
+
+	std::cout << "Test 50 elements OK\n";
 
 	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
 

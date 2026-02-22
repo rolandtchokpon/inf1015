@@ -10,7 +10,7 @@ class Liste
 public:
 	//TODO: Constructeurs et surcharges d'opérateurs
 	Liste() ;
-	explicit Liste(unsigned capacite_attendu);
+	explicit Liste(unsigned capaciteAttendu);
 
 
 	//TODO: Méthode pour ajouter un élément à la liste
@@ -21,7 +21,7 @@ public:
 	unsigned getCapacite() const  { return capacite_; }
 
 	//TODO: Méthode pour changer la capacité de la liste
-	void augmenterCapacite(unsigned nouvelle_capacite);
+	void augmenterCapacite(unsigned nouvelleCapacite);
 
 	//TODO: Méthode pour trouver un élément selon un critère (lambda).
 	template <typename Predicate>
@@ -29,6 +29,10 @@ public:
 	
 	template <typename Predicate>
 	const T* rechercherElements(Predicate pred) const;
+
+	//Operateur pour les indices 
+	T& operator[](size_t i) { return *elements_[i]; }
+	const T& operator[](size_t i) const { return *elements_[i]; }
 
 private:
 	unsigned nElements_;
