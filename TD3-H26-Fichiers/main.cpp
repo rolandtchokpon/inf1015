@@ -24,6 +24,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
+
+	Liste<int> L;
+	L.ajouterElements(make_unique<int>(10));
+
+
 	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
 
 	//TODO: Compléter le main avec les tests demandés.

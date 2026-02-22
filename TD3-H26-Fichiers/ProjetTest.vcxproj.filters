@@ -43,5 +43,8 @@
     <ClInclude Include="Liste.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Liste_impl.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
