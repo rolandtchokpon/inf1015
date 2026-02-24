@@ -1,1 +1,10 @@
 TD3-H26-Fichiers/.vs/
+*.ipch
+**/Debug/
+**/Release/
+**/x64/
+*.obj
+*.pdb
+*.tlog
+*.log
+*.lastbuildstate
