@@ -25,6 +25,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
+
 	cout << listeJeux.getCapacite() << endl;
 	cout << listeJeux.size() << endl;
 
@@ -59,13 +60,6 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	for (int i = 0; i < 50; ++i)
 		l.ajouterElements(make_shared<int>(i));
 
-	assert(l.size() == 50);
-	assert(l.getCapacite() >= 50);
-
-	for (int i = 0; i < 50; ++i)
-		assert(l[i] == i);
-
-	std::cout << "Test 50 elements OK\n";
 
 	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.
 

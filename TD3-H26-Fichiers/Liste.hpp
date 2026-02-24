@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <iostream>
 #include <memory>
 #include <string>
@@ -48,3 +48,4 @@ private:
 	std::unique_ptr<std::shared_ptr<T>[]> elements_;
 };
 #include "Liste_impl.hpp"
+
