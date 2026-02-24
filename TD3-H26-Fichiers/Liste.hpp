@@ -3,41 +3,48 @@
 #include <memory>
 #include <string>
 
-//TODO: Rentdre la liste générique.
+// Conteneur générique qui partage ses éléments via std::shared_ptr.
 template <typename T>
 class Liste
 {
 public:
-	//TODO: Constructeurs et surcharges d'opérateurs
+	// Construit une liste vide (capacité initiale 0).
 	Liste() ;
+	// Construit une liste vide avec une capacité initiale donnée.
 	explicit Liste(unsigned capaciteAttendu);
 
 
-	//TODO: Méthode pour ajouter un élément à la liste
-	void ajouterElements(std::unique_ptr<T> obj);
+	// Ajoute un élément à la fin de la liste (partage de propriété).
+	void ajouterElements(std::shared_ptr<T> obj);
 
 	// Pour size, on utilise le même nom que les accesseurs de la bibliothèque standard, qui permet d'utiliser certaines fonctions de la bibliotheque sur cette classe.
 	unsigned size() const         { return nElements_; }
+	// Retourne la capacité actuellement allouée.
 	unsigned getCapacite() const  { return capacite_; }
 
-	//TODO: Méthode pour changer la capacité de la liste
+	// Réalloue le stockage interne avec une nouvelle capacité.
 	void augmenterCapacite(unsigned nouvelleCapacite);
 
-	//TODO: Méthode pour trouver un élément selon un critère (lambda).
+	// Cherche le premier élément qui satisfait le prédicat; retourne nullptr sinon.
 	template <typename Predicate>
 	T* rechercherElements(Predicate pred);
 	
+	// Version const de la recherche.
 	template <typename Predicate>
 	const T* rechercherElements(Predicate pred) const;
 
-	//Operateur pour les indices 
+	// Accès direct par indice (aucune validation des bornes).
 	T& operator[](size_t i) { return *elements_[i]; }
 	const T& operator[](size_t i) const { return *elements_[i]; }
+	// Accès au shared_ptr stocké.
+	std::shared_ptr<T> getSharedPtr(size_t i) const { return elements_[i]; }
 
 private:
+	// Nombre d'éléments effectivement présents.
 	unsigned nElements_;
+	// Nombre de cases allouées dans le tableau.
 	unsigned capacite_;
-	//TODO: Attribut contenant les éléments de la liste.
-	std::unique_ptr<std::unique_ptr<T>[]> elements_;
+	// Tableau dynamique de pointeurs partagés vers les éléments.
+	std::unique_ptr<std::shared_ptr<T>[]> elements_;
 };
 #include "Liste_impl.hpp"

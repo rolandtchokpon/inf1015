@@ -25,10 +25,21 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
+	cout << listeJeux.getCapacite() << endl;
+	cout << listeJeux.size() << endl;
 
+	cout << listeJeux[2].getTitre() << endl;
+	cout << listeJeux[2].getConcepteurs()[1].getNom() << endl;
+
+	auto c = listeJeux[1].trouverConcepteur([](const Concepteur& c) {
+		return c.getNom() == "Yoshinori Kitase";
+		});
+	if (c) {
+		cout << c->getAnneeNaissance() << endl;
+	}
 	/*Liste<string> L;
-	L.ajouterElements(make_unique<string>("Roland"));
-	L.ajouterElements(make_unique<string>("Edwige"));
+	L.ajouterElements(make_shared<string>("Roland"));
+	L.ajouterElements(make_shared<string>("Edwige"));
 
 	L.augmenterCapacite(10);
 	cout << L[1] << endl;
@@ -46,7 +57,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	Liste<int> l;
 
 	for (int i = 0; i < 50; ++i)
-		l.ajouterElements(make_unique<int>(i));
+		l.ajouterElements(make_shared<int>(i));
 
 	assert(l.size() == 50);
 	assert(l.getCapacite() >= 50);

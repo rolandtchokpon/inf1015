@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstdint>
 #include "cppitertools/range.hpp"
+#include "Liste.hpp"
 using namespace std;
 
 using UInt8  = uint8_t;
@@ -33,21 +34,31 @@ string lireString(istream& fichier)
 }
 #pragma endregion
 
-Concepteur* chercherConcepteur(ListeJeux& listeJeux, const string& nom)
+shared_ptr<Concepteur> chercherConcepteur(ListeJeux& listeJeux, const string& nom)
 {
-	//TODO: Compléter la fonction (équivalent de trouverDesigner du TD2).
+	for (unsigned i = 0; i < listeJeux.size(); i++) {
+		auto& concepteurs = listeJeux[i].getConcepteurs();
+		for (unsigned j = 0; j < concepteurs.size(); j++) {
+			if (concepteurs[j].getNom() == nom)
+				return concepteurs.getSharedPtr(j);
+		}
+	}
 	return {};
 }
 
-Concepteur* lireConcepteur(ListeJeux& lj, istream& f)
+shared_ptr<Concepteur> lireConcepteur(ListeJeux& lj, istream& f)
 {
 	string nom              = lireString(f);
 	unsigned anneeNaissance = lireUint16(f);
 	string pays             = lireString(f);
 
-	//TODO: Compléter la fonction (équivalent de lireDesigner du TD2).
+	// Cherche un concepteur existant; sinon, cree un nouveau.
+	auto concepteur = chercherConcepteur(lj, nom);
+	if (!concepteur)
+		concepteur = make_shared<Concepteur>(nom, anneeNaissance, pays);
+
 	cout << "C: " << nom << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
-	return {};
+	return concepteur;
 }
 
 Jeu* lireJeu(istream& f, ListeJeux& lj)
@@ -56,12 +67,14 @@ Jeu* lireJeu(istream& f, ListeJeux& lj)
 	unsigned anneeSortie  = lireUint16(f);
 	string developpeur    = lireString(f);
 	unsigned nConcepteurs = lireUint8(f);
-	//TODO: Compléter la fonction (équivalent de lireJeu du TD2).
+	// Cree un jeu et attache ses concepteurs.
+	auto jeu = make_shared<Jeu>(titre, anneeSortie, developpeur);
 	for (unsigned int i = 0; i < nConcepteurs; i++)
-		lireConcepteur(lj, f);
+		jeu->ajouterConcepteur(lireConcepteur(lj, f));
+	lj.ajouterElements(jeu);
 
 	cout << "J: " << titre << endl;  //TODO: Enlever cet affichage temporaire servant à voir que le code fourni lit bien les jeux.
-	return {};
+	return jeu.get();
 }
 
 ListeJeux creerListeJeux(const string& nomFichier)
@@ -69,10 +82,11 @@ ListeJeux creerListeJeux(const string& nomFichier)
 	ifstream f(nomFichier, ios::binary);
 	f.exceptions(ios::failbit);
 	int nElements = lireUint16(f);
-	//TODO: Compléter la fonction.
 	ListeJeux listeJeux;
+	//Creer une liste de jeux
 	for ([[maybe_unused]] int i : iter::range(nElements))
 		lireJeu(f, listeJeux);
 
-	return {};
+	//Retourner la liste de jeu
+	return listeJeux;
 }
