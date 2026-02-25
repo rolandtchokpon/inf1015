@@ -1,0 +1,10 @@
+# Build artifacts
+x64/
+Debug/
+Release/
+*.exe
+*.pdb
+*.ilk
+*.obj
+*.ipch
+TD3-H26-Fichiers/.vs/
