@@ -10,6 +10,42 @@
 using namespace std;
 
 //TODO: Vos surcharges d'opérateur <<
+ostream& operator<<(ostream& os, const Concepteur& c)
+{
+	os << "\t" << c.getNom()
+		<< ", " << c.getAnneeNaissance()
+		<< ", " << c.getPays();
+	return os;
+}
+ostream& operator<<(ostream& os, const Jeu& jeu)
+{
+	static const string bleu = "\033[94m";
+	static const string reset = "\033[0m";
+
+	os << "Titre : " << bleu << jeu.getTitre() << reset << "\n"
+		<< "Parution : " << bleu << jeu.getAnneeSortie() << reset << "\n"
+		<< "Développeur : " << bleu << jeu.getDeveloppeur() << reset << "\n"
+		<< "Concepteurs du jeu :\n";
+
+	const auto& concepteurs = jeu.getConcepteurs();
+	for (unsigned i = 0; i < concepteurs.size(); i++)
+		os << *concepteurs[i] << "\n";
+
+	return os;
+}
+ostream& operator<<(ostream& os, const ListeJeux& listeJeux)
+{
+	static const string ligne =
+		"\n\033[95m══════════════════════════════════════════════════════════════════════════\033[0m\n";
+
+	for (unsigned i = 0; i < listeJeux.size(); i++) {
+		os << ligne;
+		os << *listeJeux[i];
+	}
+	os << ligne;
+	return os;
+}
+
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
@@ -38,6 +74,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	if (c) {
 		cout << c->getAnneeNaissance() << endl;
 	}
+	//Pour tester :
+	cout << listeJeux;
+
+	ofstream fichier("sortie_jeux.txt");
+	fichier << listeJeux;
 	/*Liste<string> L;
 	L.ajouterElements(make_shared<string>("Roland"));
 	L.ajouterElements(make_shared<string>("Edwige"));
