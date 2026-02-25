@@ -16,6 +16,17 @@ Liste<T>::Liste(unsigned capaciteAttendu) :
 {}
 
 template <typename T>
+// Constructeur de copie: copie des shared_ptr (partage des elements).
+Liste<T>::Liste(const Liste& autre) :
+	capacite_(autre.capacite_), nElements_(autre.nElements_),
+	elements_(capacite_ ? make_unique<shared_ptr<T>[]>(capacite_) : nullptr)
+{
+	for (unsigned i = 0; i < nElements_; i++) {
+		elements_[i] = autre.elements_[i];
+	}
+}
+
+template <typename T>
 void Liste<T>::ajouterElements(shared_ptr<T> obj) {
 	// Ignore les pointeurs nuls pour conserver des elements valides.
 	if (!obj) return;

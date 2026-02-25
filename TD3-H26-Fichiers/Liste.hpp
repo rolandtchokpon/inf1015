@@ -12,6 +12,8 @@ public:
 	Liste() ;
 	// Construit une liste vide avec une capacité initiale donnée.
 	explicit Liste(unsigned capaciteAttendu);
+	// Constructeur de copie (copie des shared_ptr).
+	Liste(const Liste& autre);
 
 
 	// Ajoute un élément à la fin de la liste (partage de propriété).
@@ -37,7 +39,8 @@ public:
 	T& operator[](size_t i) { return *elements_[i]; }
 	const T& operator[](size_t i) const { return *elements_[i]; }
 	// Accès au shared_ptr stocké.
-	std::shared_ptr<T> getSharedPtr(size_t i) const { return elements_[i]; }
+	std::shared_ptr<T>& getSharedPtr(size_t i) { return elements_[i]; }
+	const std::shared_ptr<T>& getSharedPtr(size_t i) const { return elements_[i]; }
 
 private:
 	// Nombre d'éléments effectivement présents.
@@ -48,4 +51,3 @@ private:
 	std::unique_ptr<std::shared_ptr<T>[]> elements_;
 };
 #include "Liste_impl.hpp"
-
