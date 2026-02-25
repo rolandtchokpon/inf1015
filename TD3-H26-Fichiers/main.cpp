@@ -1,4 +1,6 @@
-﻿#include <iostream>
+﻿// main.cpp
+// Tests et demonstrations du projet.
+#include <iostream>
 #include <fstream>
 #include "Liste.hpp"
 #include "Concepteur.hpp"
@@ -10,46 +12,53 @@
 using namespace std;
 
 // Surcharges d'opérateur << pour l'affichage des objets.
-ostream& operator<<(ostream& os, const Concepteur& c)
+ostream& operator<<(ostream& fluxSortie, const Concepteur& concepteur)
 {
-	os << "\t" << c.getNom()
-		<< ", " << c.getAnneeNaissance()
-		<< ", " << c.getPays();
-	return os;
+	fluxSortie << "\t" << concepteur.getNom()
+		<< ", " << concepteur.getAnneeNaissance()
+		<< ", " << concepteur.getPays();
+	return fluxSortie;
 }
-ostream& operator<<(ostream& os, const Jeu& jeu)
+ostream& operator<<(ostream& fluxSortie, const Jeu& jeu)
 {
 	static const string bleu = "\033[94m";
 	static const string reset = "\033[0m";
 
-	os << "Titre : " << bleu << jeu.getTitre() << reset << "\n"
+	fluxSortie << "Titre : " << bleu << jeu.getTitre() << reset << "\n"
 		<< "Parution : " << bleu << jeu.getAnneeSortie() << reset << "\n"
 		<< "Développeur : " << bleu << jeu.getDeveloppeur() << reset << "\n"
 		<< "Concepteurs du jeu :\n";
 
 	const auto& concepteurs = jeu.getConcepteurs();
 	for (unsigned i = 0; i < concepteurs.size(); i++)
-		os << concepteurs[i] << "\n";
+		fluxSortie << concepteurs[i] << "\n";
 
-	return os;
+	return fluxSortie;
 }
-ostream& operator<<(ostream& os, const ListeJeux& listeJeux)
+ostream& operator<<(ostream& fluxSortie, const ListeJeux& listeJeux)
 {
 	static const string ligneSeparation = "\n\033[92m"
 		"══════════════════════════════════════════════════════════════════════════"
 		"\033[0m\n";
 
 	for (unsigned i = 0; i < listeJeux.size(); i++) {
-		os << ligneSeparation;
-		os << listeJeux[i];
+		fluxSortie << ligneSeparation;
+		fluxSortie << listeJeux[i];
 	}
-	os << ligneSeparation;
-	return os;
+	fluxSortie << ligneSeparation;
+	return fluxSortie;
 }
 
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 {
+	constexpr unsigned indexJeuReference = 2;
+	constexpr unsigned indexJeuRecherche = 1;
+	constexpr unsigned indexConcepteurSecond = 1;
+	constexpr unsigned indexJeuSource = 0;
+	constexpr unsigned indexConcepteurPremier = 0;
+	constexpr int nValeursTest = 50;
+
 	#pragma region "Bibliothèque du cours"
 	// Permet sous Windows les "ANSI escape code" pour changer de couleur
 	// https://en.wikipedia.org/wiki/ANSI_escape_code ; les consoles Linux/Mac
@@ -59,25 +68,21 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	
 	// Creation de la liste de jeux a partir du fichier binaire.
 	ListeJeux listeJeux = creerListeJeux("jeux.bin");
-	static const string ligneSeparation = "\n\033[92m"
-		"══════════════════════════════════════════════════════════════════════════"
-		"\033[0m\n";
-
 
 	// Tests: capacite et taille.
 	cout << listeJeux.getCapacite() << endl;
 	cout << listeJeux.size() << endl;
 
 	// Tests: acces par index et aux concepteurs.
-	cout << listeJeux[2].getTitre() << endl;
-	cout << listeJeux[2].getConcepteurs()[1].getNom() << endl;
+	cout << listeJeux[indexJeuReference].getTitre() << endl;
+	cout << listeJeux[indexJeuReference].getConcepteurs()[indexConcepteurSecond].getNom() << endl;
 
 	// Tests: recherche d'un concepteur via un predicat.
-	auto c = listeJeux[1].trouverConcepteur([](const Concepteur& c) {
-		return c.getNom() == "Yoshinori Kitase";
+	auto concepteurTrouve = listeJeux[indexJeuRecherche].trouverConcepteur([](const Concepteur& concepteur) {
+		return concepteur.getNom() == "Yoshinori Kitase";
 		});
-	if (c) {
-		cout << c->getAnneeNaissance() << endl;
+	if (concepteurTrouve != nullptr) {
+		cout << concepteurTrouve->getAnneeNaissance() << endl;
 	}
 	// Tests: surcharge d'ostream (ecran et fichier).
 	cout << listeJeux;
@@ -86,22 +91,22 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	//fichier << listeJeux;
 
 	// Tests copie :
-	Jeu copieJeu = listeJeux[2];
+	Jeu copieJeu = listeJeux[indexJeuReference];
 	//Avant copie
-	cout << "Avant : " << listeJeux[2] << copieJeu;
-	copieJeu.getConcepteurs().getSharedPtr(1) =
-		listeJeux[0].getConcepteurs().getSharedPtr(0);
+	cout << "Avant Copie: " << listeJeux[indexJeuReference] << copieJeu;
+	copieJeu.getConcepteurs().getSharedPtr(indexConcepteurSecond) =
+		listeJeux[indexJeuSource].getConcepteurs().getSharedPtr(indexConcepteurPremier);
 	//Après copie
-	cout << "Apres : " << listeJeux[2] << copieJeu << endl;
+	cout << "Apres Copie : " << listeJeux[indexJeuReference] << copieJeu << endl;
 
 	//Recuperation des adresses original et copie
-	const Concepteur* addrOriginal =
-		listeJeux[2].getConcepteurs().getSharedPtr(0).get();
-	const Concepteur* addrCopie =
+	const Concepteur* adresseOriginale =
+		listeJeux[indexJeuReference].getConcepteurs().getSharedPtr(indexConcepteurPremier).get();
+	const Concepteur* adresseCopie =
 		copieJeu.getConcepteurs().getSharedPtr(0).get();
-	cout << "Adresse 1er concepteur (original): " << addrOriginal << "\n";
-	cout << "Adresse 1er concepteur (copie): " << addrCopie << "\n";
-	cout << "Meme adresse? " << boolalpha << (addrOriginal == addrCopie) << "\n"; //Retourne true lorsque les adresses sont les mêmes
+	cout << "Adresse 1er concepteur (original): " << adresseOriginale << "\n";
+	cout << "Adresse 1er concepteur (copie): " << adresseCopie << "\n";
+	cout << "Meme adresse? " << boolalpha << (adresseOriginale == adresseCopie) << "\n"; //Retourne true lorsque les adresses sont les memes
 
 
 	/*Liste<string> L;
@@ -121,10 +126,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char** argv)
 	else {
 		cout << "Pas present";
 	}*/
-	Liste<int> l;
+	Liste<int> listeEntiers;
 
-	for (int i = 0; i < 50; ++i)
-		l.ajouterElements(make_shared<int>(i));
+	for (int i = 0; i < nValeursTest; ++i)
+		listeEntiers.ajouterElements(make_shared<int>(i));
 
 
 	//TODO: L'affichage de listeJeux et l'écriture dans le fichier devraient fonctionner.

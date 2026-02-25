@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Concepteur.hpp
+// Definit la classe Concepteur et ses acces aux donnees.
+#pragma once
 #include <string>
 #include <utility>
 
@@ -6,7 +8,7 @@ class Concepteur
 {
 public:
 	// Constructeurs.
-	Concepteur() : anneeNaissance_(0) {}
+	Concepteur() = default;
 	Concepteur(std::string nom, int anneeNaissance, std::string pays)
 		: nom_(std::move(nom)), anneeNaissance_(anneeNaissance), pays_(std::move(pays)) {}
 
@@ -19,6 +21,6 @@ public:
 
 private:
 	std::string nom_;
-	int anneeNaissance_;
+	int anneeNaissance_ = 0;
 	std::string pays_;
 };

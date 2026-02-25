@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Jeu.hpp
+// Definit la classe Jeu et ses operations.
+#pragma once
 #include <string>
 #include <memory>
 #include <utility>
@@ -9,7 +11,7 @@ class Jeu
 {
 public:
 	// Constructeurs.
-	Jeu() : anneeSortie_(0) {}
+	Jeu() = default;
 	Jeu(std::string titre, unsigned anneeSortie, std::string developpeur)
 		: titre_(std::move(titre)), anneeSortie_(anneeSortie), developpeur_(std::move(developpeur)) {}
 
@@ -47,7 +49,7 @@ public:
 
 private:
 	std::string titre_;
-	unsigned anneeSortie_;
+	unsigned anneeSortie_ = 0;
 	std::string developpeur_;
 	// Liste des concepteurs du jeu.
 	Liste<Concepteur> concepteurs_;

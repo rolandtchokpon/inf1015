@@ -1,3 +1,5 @@
+// Liste.hpp
+// Conteneur generique de pointeurs partages.
 #pragma once
 #include <iostream>
 #include <memory>
@@ -17,7 +19,7 @@ public:
 
 
 	// Ajoute un élément à la fin de la liste (partage de propriété).
-	void ajouterElements(std::shared_ptr<T> obj);
+	void ajouterElements(std::shared_ptr<T> element);
 
 	// Pour size, on utilise le même nom que les accesseurs de la bibliothèque standard, qui permet d'utiliser certaines fonctions de la bibliotheque sur cette classe.
 	unsigned size() const         { return nElements_; }
@@ -44,10 +46,10 @@ public:
 
 private:
 	// Nombre d'éléments effectivement présents.
-	unsigned nElements_;
+	unsigned nElements_ = 0;
 	// Nombre de cases allouées dans le tableau.
-	unsigned capacite_;
+	unsigned capacite_ = 0;
 	// Tableau dynamique de pointeurs partagés vers les éléments.
-	std::unique_ptr<std::shared_ptr<T>[]> elements_;
+	std::unique_ptr<std::shared_ptr<T>[]> elements_ = nullptr;
 };
 #include "Liste_impl.hpp"
