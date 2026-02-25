@@ -29,20 +29,21 @@ ostream& operator<<(ostream& os, const Jeu& jeu)
 
 	const auto& concepteurs = jeu.getConcepteurs();
 	for (unsigned i = 0; i < concepteurs.size(); i++)
-		os << *concepteurs[i] << "\n";
+		os << concepteurs[i] << "\n";
 
 	return os;
 }
 ostream& operator<<(ostream& os, const ListeJeux& listeJeux)
 {
-	static const string ligne =
-		"\n\033[95m══════════════════════════════════════════════════════════════════════════\033[0m\n";
+	static const string ligneSeparation = "\n\033[92m"
+		"══════════════════════════════════════════════════════════════════════════"
+		"\033[0m\n";
 
 	for (unsigned i = 0; i < listeJeux.size(); i++) {
-		os << ligne;
-		os << *listeJeux[i];
+		os << ligneSeparation;
+		os << listeJeux[i];
 	}
-	os << ligne;
+	os << ligneSeparation;
 	return os;
 }
 
