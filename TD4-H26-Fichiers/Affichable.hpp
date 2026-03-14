@@ -4,9 +4,11 @@
 
 using namespace std;
 
+// Interface commune pour tous les objets pouvant s'afficher sur un flux
+// et adapter leur couleur selon une palette logique.
 class Affichable {
 	public:
 		virtual ~Affichable() = default;
-		virtual void afficher(ostream& os) = 0;
+		virtual void afficher(ostream& os) const = 0;
 		virtual void changerCouleur(const string& palette) = 0;
 };

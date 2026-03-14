@@ -5,6 +5,8 @@
 #include "Personnage.hpp"
 
 
+// Specialisation de Personnage representant un heros.
+// Un heros connait son ennemi principal et la liste de ses allies.
 class Heros : public virtual Personnage
 {
 public:
@@ -23,14 +25,17 @@ private:
 
 };
 
+// Accesseur utilise lors de la construction d'un VilainHeros.
 const string& Heros::getEnnemi() const {
 	return ennemi_;
 }
 
+// Accesseur utilise lors de la construction et de l'affichage d'un VilainHeros.
 const vector<string>& Heros::getAllies() const {
 		return allies_;
 }
 
+// Complete l'affichage de base avec les informations propres au heros.
 void Heros::afficher(ostream& os) const 
 {
 	Personnage::afficher(os);

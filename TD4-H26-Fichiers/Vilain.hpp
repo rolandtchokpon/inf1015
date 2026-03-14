@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// Specialisation de Personnage representant un antagoniste.
+// Le vilain ajoute un objectif a l'identite de base du personnage.
 class Vilain : public virtual Personnage
 {
 public:
@@ -22,10 +24,12 @@ private:
 	string objectif_;
 };
 
+// Accesseur utilise pour fusionner un vilain avec un heros.
 const string& Vilain::getObjectif() const {
 	return objectif_;
 }
 
+// Complete l'affichage de base avec l'objectif du vilain.
 void Vilain::afficher(ostream& os) const {
 	Personnage::afficher(os);
 	os << "Objectif : " << objectif_ << "\n";

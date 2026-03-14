@@ -6,12 +6,14 @@
 using namespace std;
 
 
+// Base commune des heros et des vilains.
+// Cette classe centralise les informations partagees et l'affichage de base.
 class Personnage : public Affichable
 
 {
 public:
 	Personnage(const string& nom, const string& parution):
-		nom_(nom), parution_(parution), couleur_("heros")
+		nom_(nom), parution_(parution), couleur_("\033[0m")
 	{}
 
 	void afficher(ostream& os) const override;
@@ -30,6 +32,7 @@ private:
 	string couleur_;
 };
 
+// Affiche uniquement les informations communes a tous les personnages.
 void Personnage::afficher(ostream& os) const {
 	  os << couleur_ 
 		 << "Nom : " << nom_ << "\n"
@@ -37,13 +40,17 @@ void Personnage::afficher(ostream& os) const {
 		 << "\033[0m";
 }
 
+// Accesseur minimal necessaire pour composer un VilainHeros.
 const string& Personnage::getNom() const {
 	return nom_;
 }
+
+// Accesseur minimal necessaire pour composer un VilainHeros.
 const string& Personnage::getParution() const{
 	return parution_;
 }
 
+// Associe une palette logique a une sequence ANSI utilisee par afficher.
 void Personnage::changerCouleur(const string& palette) {
 	if (palette == "heros") {
 		couleur_ = "\033[94m";
