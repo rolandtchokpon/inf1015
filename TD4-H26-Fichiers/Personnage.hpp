@@ -1,3 +1,7 @@
+// Fichier: Personnage.hpp
+// Auteurs:
+// Description: Classe de base commune aux heros et aux vilains.
+
 #pragma once
 #include <string>
 #include <iostream>

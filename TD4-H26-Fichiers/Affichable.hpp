@@ -1,3 +1,7 @@
+// Fichier: Affichable.hpp
+// Auteurs:
+// Description: Interface commune des objets pouvant s'afficher et changer de couleur.
+
 #pragma once
 #include <string>
 #include <iostream>

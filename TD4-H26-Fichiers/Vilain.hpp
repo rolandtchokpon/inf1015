@@ -1,3 +1,7 @@
+// Fichier: Vilain.hpp
+// Auteurs:
+// Description: Definition de la classe Vilain et de son affichage.
+
 #pragma once
 #include <iostream>
 #include <string>

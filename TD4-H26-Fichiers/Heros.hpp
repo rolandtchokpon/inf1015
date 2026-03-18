@@ -1,3 +1,7 @@
+// Fichier: Heros.hpp
+// Auteurs:
+// Description: Definition de la classe Heros et de son affichage.
+
 #pragma once
 #include <iostream>
 #include <string>

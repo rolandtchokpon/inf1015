@@ -1,4 +1,8 @@
-﻿#include <fstream>
+﻿// Fichier: main.cpp
+// Auteurs: Roland Kossoun Tchokpon, Youssef Haddak
+// Description: Lecture des fichiers binaires, creation des objets et affichage polymorphe.
+
+#include <fstream>
 #include <vector>
 #include "bibliotheque_cours.hpp"
 #include "Heros.hpp"
@@ -105,6 +109,13 @@ int main()
 		}
 		};
 
+	auto afficherPersonnages = [&](const auto& vecteur) {
+		for (const auto& p : vecteur) {
+			as_ref(p).afficher(cout);
+			cout << trait << "\n";
+		}
+		};
+
 	afficherVecteur(heros, "heros");
 	afficherVecteur(vilains, "vilain");
 
@@ -112,11 +123,16 @@ int main()
 	// Personnage p = heros[0];
 
 	for (auto& h : heros)
+		h.changerCouleur("heros");
+	for (auto& v : vilains)
+		v.changerCouleur("vilain");
+
+	for (auto& h : heros)
 		personnages.push_back(&h);
 	for (auto& v : vilains)
 		personnages.push_back(&v);
 
-	afficherVecteur(personnages, "");
+	afficherPersonnages(personnages);
 
 	int indexVilain = 0;
 	int indexHeros = 0;
@@ -140,5 +156,5 @@ int main()
 	cout << trait << "\n";
 
 	personnages.push_back(&fusion);
-	afficherVecteur(personnages, "");
+	afficherPersonnages(personnages);
 }

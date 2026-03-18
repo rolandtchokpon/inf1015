@@ -1,3 +1,7 @@
+// Fichier: VilainHeros.hpp
+// Auteurs:
+// Description: Definition de la classe issue de l'heritage multiple VilainHeros.
+
 #pragma once 
 #include <ostream>
 #include <string>
