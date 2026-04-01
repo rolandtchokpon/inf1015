@@ -1,4 +1,12 @@
-﻿#include "Personnage.hpp"
+﻿/**
+ * main du TD5 - Liste liée, itérateurs et conteneurs STL.
+ * \fichier:  main.cpp
+ * \auteurs: Youssef Haddak et Roland Tchokpon
+ * \date:   1er avril 2026
+ * Créé le 24 mars 2026
+ */
+#include <map>
+#include "Personnage.hpp"										
 #include "Heros.hpp"
 #include "Vilain.hpp"
 #include "VilainHeros.hpp"
@@ -131,28 +139,100 @@ int main()
 	//}
 
 	//TODO: Transférez les héros du vecteur heros dans une ListeLiee.
+	ListeLiee<Heros> listeLieeHeros;
+	for (auto& h : heros)
+		listeLieeHeros.push_back(h);
 
 	//TODO: Créez un itérateur sur la liste liée à la position du héros Alucard
 	// Servez-vous de la fonction trouverParNom définie plus haut
+	Iterateur<Heros> it = trouverParNom(listeLieeHeros, "Alucard");
 
 	//TODO: Servez-vous de l'itérateur créé précédemment pour trouver l'héroine Aya Brea,
 	// en sachant qu'elle se trouve plus loin dans la liste.
+	it.avancer();
 
 	//TODO: Ajouter un hero bidon à la liste avant Aya Brea en vous servant de l'itérateur.
-	//TODO: Assurez-vous que la taille de la liste est correcte après l'ajout.
+	if (it != listeLieeHeros.end()) {
+		Heros herosBidon("Héros Bidon", "Jeu Bidon", "Ennemi Bidon");
+		listeLieeHeros.insert(it, herosBidon);
+	}
+    //TODO: Assurez-vous que la taille de la liste est correcte après l'ajout.
+	cout << separateurSections
+		<< "Taille après insertion du héros bidon : "
+		<< listeLieeHeros.size() << endl;
 
 	//TODO: Reculez votre itérateur jusqu'au héros Mario et effacez-le en utilisant l'itérateur, puis affichez le héros suivant dans la liste (devrait êter "Naked Snake/John").
+	it.reculer(); // Héros Bidon
+	it.reculer(); // Alucard
+	it.reculer(); // Naked Snake/John
+	it.reculer(); // Mario
+	Iterateur<Heros> itSuivantMario = listeLieeHeros.erase(it);
+	cout << separateurSections
+		<< "Héros suivant Mario après suppression :" << endl;
+	if (itSuivantMario != listeLieeHeros.end()) {
+		(*itSuivantMario).changerCouleur(cout, 0);
+		(*itSuivantMario).afficher(cout);
+	}
 	//TODO: Assurez-vous que la taille de la liste est correcte après le retrait.
-
+	cout << separateurSections
+		<< "Taille après suppression de Mario : "
+		<< listeLieeHeros.size() << endl;
 	//TODO: Effacez le premier élément de la liste.
+	if (!listeLieeHeros.estVide())
+		listeLieeHeros.erase(listeLieeHeros.begin());
 
 	//TODO: Affichez votre liste de héros en utilisant un itérateur. La liste débute
 	// avec le héros Randi et n'a pas Mario.
 	// Servez-vous des methodes begin et end de la liste...
-
+	cout << separateurSections
+		<< "Liste des héros (itérateur explicite) :" << endl;
+	for (Iterateur<Heros> pos = listeLieeHeros.begin();
+		pos != listeLieeHeros.end();
+		pos.avancer()) {
+		cout << separateurElements;
+		(*pos).changerCouleur(cout, 0);
+		(*pos).afficher(cout);
+	}
 	//TODO: Refaite le même affichage mais en utilisant une simple boucle "for" sur intervalle.
-	
-	//TODO: Utilisez un conteneur pour avoir les héros en ordre alphabétique (voir point 2 de l'énoncé).
+	cout << separateurSections
+		<< "Liste des héros (boucle for sur intervalle) :" << endl;
+	for (Heros& h : listeLieeHeros) {
+		cout << separateurElements;
+		h.changerCouleur(cout, 0);
+		h.afficher(cout);
+	}
 
+	//TODO: Utilisez un conteneur pour avoir les héros en ordre alphabétique (voir point 2 de l'énoncé).
+	// 2.1 : Conteneur STL pour ordre alphabétique.
+	// std::map maintient ses éléments triés automatiquement (arbre rouge-noir).
+	map<string, Heros> herosAlpha;
+	for (Heros& h : listeLieeHeros)
+		herosAlpha.emplace(h.getNom(), h);
+
+	cout << separateurSections
+		<< "Héros en ordre alphabétique (std::map) :" << endl;
+	for (auto& [nom, h] : herosAlpha) {
+		cout << separateurElements;
+		h.changerCouleur(cout, 0);
+		h.afficher(cout);
+	}
+
+	// 2.2 : Recherche dans std::map.
+	// Complexité : O(log n).
+	// Explication : std::map est un arbre rouge-noir équilibré;
+	// la recherche divise l'espace de recherche par deux à chaque étape.
+	const string nomRecherche = "Randi";
+	auto itMap = herosAlpha.find(nomRecherche);
+	if (itMap != herosAlpha.end()) {
+		cout << separateurSections
+			<< "Héros trouvé par nom (\"" << nomRecherche << "\") :" << endl;
+		itMap->second.changerCouleur(cout, 0);
+		itMap->second.afficher(cout);
+	}
+
+	// 2.3 : Comparaison des structures pour la recherche par nom.
+	// ListeLiee : O(n) — parcours séquentiel obligatoire depuis la tête.
+	// std::map  : O(log n) — arbre équilibré, recherche binaire.
+	// Conclusion : std::map est nettement plus rapide pour rechercher par nom.
 	//TODO: Assurez-vous de n'avoir aucune ligne non couverte dans les classes pour la liste liée.  Il peut y avoir des lignes non couvertes dans les personnages...
-}
+	}
