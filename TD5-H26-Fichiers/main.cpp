@@ -149,7 +149,8 @@ int main()
 
 	//TODO: Servez-vous de l'itérateur créé précédemment pour trouver l'héroine Aya Brea,
 	// en sachant qu'elle se trouve plus loin dans la liste.
-	it.avancer();
+	while (it != listeLieeHeros.end() && (*it).getNom() != "Aya Brea")
+		it.avancer();
 
 	//TODO: Ajouter un hero bidon à la liste avant Aya Brea en vous servant de l'itérateur.
 	if (it != listeLieeHeros.end()) {
@@ -162,10 +163,8 @@ int main()
 		<< listeLieeHeros.size() << endl;
 
 	//TODO: Reculez votre itérateur jusqu'au héros Mario et effacez-le en utilisant l'itérateur, puis affichez le héros suivant dans la liste (devrait êter "Naked Snake/John").
-	it.reculer(); // Héros Bidon
-	it.reculer(); // Alucard
-	it.reculer(); // Naked Snake/John
-	it.reculer(); // Mario
+	while ((*it).getNom() != "Mario")
+		it.reculer();
 	Iterateur<Heros> itSuivantMario = listeLieeHeros.erase(it);
 	cout << separateurSections
 		<< "Héros suivant Mario après suppression :" << endl;
