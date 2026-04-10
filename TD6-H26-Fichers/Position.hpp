@@ -6,17 +6,23 @@
 #pragma once
 
 namespace modele {
+	// Convention retenue : sur un echiquier 8x8,
+	// ligne et colonne prennent des valeurs entre 0 et 7.
+	struct Position
+	{
+		int ligne = 0;
+		int colonne = 0;
 
-struct Position
-{
-	int ligne = 0;
-	int colonne = 0;
+		
+		Position() = default;
+		Position(int ligne, int colonne) :
+			ligne(ligne), colonne(colonne)
+		{
+		}
 
-	// TODO(Personne 1) :
-	// 1. Decider si vous gardez ligne/colonne ou si vous renommez en x/y.
-	// 2. Choisir la convention des valeurs valides, par exemple 0 a 7.
-	// 3. Ajouter au besoin un constructeur Position(int, int).
-	// 4. Ajouter au besoin operator== pour comparer deux positions.
-};
+		bool operator==(const Position& pos) const {
+			return ligne == pos.ligne && colonne == pos.colonne;
+		}
+	};
 
 }  // namespace modele

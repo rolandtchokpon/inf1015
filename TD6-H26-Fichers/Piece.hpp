@@ -4,7 +4,6 @@
  */
 
 #pragma once
-
 #include "Position.hpp"
 
 namespace modele {
@@ -16,20 +15,17 @@ public:
 	explicit Piece(const Position& positionInitiale);
 	virtual ~Piece() = default;
 
+	// Retourne la position actuelle de la piece.
 	const Position& obtenirPosition() const;
+
+	// Deplace la piece a une nouvelle position.
 	void deplacer(const Position& nouvellePosition);
 
-	// TODO(Personne 1) :
-	// 1. Ajouter les attributs communs a toutes les pieces.
-	//    Exemples : couleur, nom, symbole.
-	// 2. Ajouter les getters/setters necessaires pour ces attributs.
-	// 3. Decider si Piece doit etre abstraite.
-	//    Si oui, ajouter au moins une methode virtuelle pure.
-	// 4. Verifier que cette classe ne depend pas de la vue.
-	// 5. Ne pas utiliser using namespace dans ce fichier.
 
 private:
+	// Chaque piece connait sa position sur l'echiquier.
 	Position position_{};
+
 };
 
 }  // namespace modele
