@@ -1,30 +1,36 @@
 /**
- * \file Roi.hpp
- * \brief Declaration de la classe Roi.
+ * Classe Roi : piece avec compteur d'instances limite a deux.
+ * \file   Roi.hpp
+ * \author []
+ * \date   5 mai 2026
+ * Cree le 18 avril 2026
  */
 
 #pragma once
 
+#include "Couleur.hpp"
 #include "ExceptionRoi.hpp"
 #include "Piece.hpp"
 
 namespace modele {
 
-class Roi : public Piece
-{
-public:
-	explicit Roi(const Position& positionInitiale);
-	~Roi() override;
+	class Roi : public Piece
+	{
+	public:
+		Roi(const Position& positionInitiale, Couleur couleur);
+		~Roi() override;
 
-	// On interdit la copie pour ne pas fausser le compteur d'instances.
-	Roi(const Roi&) = delete;
-	Roi& operator=(const Roi&) = delete; 
+		Roi(const Roi&) = delete;
+		Roi& operator=(const Roi&) = delete;
 
-	static int obtenirNombreInstances();
+		bool estMouvementValide(
+			const Position& destination) const override;
+		char obtenirSymbole() const override;
 
-private:
-	// Variable de classe partagee par tous les objets Roi.
-	static int nombreInstances_;
-};
+		static int obtenirNombreInstances();
 
-}  // namespace modele
+	private:
+		static int nombreInstances_;
+	};
+
+}  
